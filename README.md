@@ -14,7 +14,7 @@ This repostiory contains Dockerized Python scripts that use Selenium and Firefox
 `docker run --name penn-jobs-container --env-file ./.env penn-jobs`
 
 5. After initially running the Docker container, you can run the container using the following command:
-`docker container start penn-jobs-containers`
+`docker start penn-jobs-containers`
 
 <b>Sending Emails using Python</b>
 
@@ -22,7 +22,7 @@ GeeksforGeeks has <a href='https://www.geeksforgeeks.org/send-mail-gmail-account
 
 <h2>Schedule Python Scripts to Run Daily</h2>
 
-I have scheduled these scripts to run daily on my system. Please see <a href='https://www.geeksforgeeks.org/schedule-python-script-using-windows-scheduler/'>GeeksforGeeks instructions</a> for one way to do this.
+I have scheduled these Dockerized scripts to run daily on my system. Please see <a href='https://www.geeksforgeeks.org/schedule-python-script-using-windows-scheduler/'>GeeksforGeeks instructions</a> for one way to do this.
 
 <h2>Example Output</h2>
 
