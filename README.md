@@ -27,5 +27,5 @@ I have scheduled these scripts to run daily on my system. Please see <a href='ht
 <h2>Example Output</h2>
 
 The user should receive an email with results similar to the below picture.
-<img src="https://github.com/theapphiker/Penn-jobs/blob/2d90b94f47375b2a6164b2aac210c71d9704a8d0/example_output.png" alt="example output">
+<img src="https://raw.githubusercontent.com/theapphiker/penn-jobs/refs/heads/main/example_output.png" alt="example output">
 
