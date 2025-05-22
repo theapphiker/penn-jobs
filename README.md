@@ -7,7 +7,7 @@ This repostiory contains Dockerized Python scripts that use Selenium and Firefox
 
 2. Clone the repository.
 
-3. Build the Docker container using the following command:
+3. Build the Docker image using the following command:
 `docker build -t penn-jobs .`
 
 4. Run the Docker container using the following command:
