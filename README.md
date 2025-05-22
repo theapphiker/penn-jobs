@@ -1,25 +1,24 @@
 # penn_jobs
-Collection of scripts that scrape Pennsylvania-based jobs of interest based on keywords and then emails the results.
+This repostiory contains Dockerized Python scripts that use Selenium and Firefox to scrape Pennsylvania-based jobs of interest based on keywords and then emails the results.
 
-<h2>Requirements</h2>
+<b>Instructions:</b>
 
-<b>Modules</b>
-<ul>
-<li>bs4</li>
-<li>selenium</li>
-<li>python-dotenv</li>
-<li>html5lib</li>
-</ul>
+1. Install Docker on your system.
 
-If you have PIP installed, type: `pip install -r requirements.txt` from the command line and your system should install all required modules.
+2. Clone the repository.
+
+3. Build the Docker container using the following command:
+`docker build -t penn-jobs .`
+
+4. Run the Docker container using the following command:
+`docker run --name penn-jobs-container --env-file ./.env penn-jobs`
+
+5. After initially running the Docker container, you can run the container using the following command:
+`docker container start penn-jobs-containers`
 
 <b>Sending Emails using Python</b>
 
-GeeksforGeeks has <a href='https://www.geeksforgeeks.org/send-mail-gmail-account-using-python/'>instructions</a> for sending emails using SMTP (Simple Mail Transfer Protocol). I store the sender, receiver, and sender password in a .env file on my system that the script accesses. This is by no means secure or best practice, but works for this purpose on my local system.
-
-<b>Firefox</b>
-
-These scripts require having the <a href='https://www.mozilla.org/en-US/firefox/new/'>Firefox web browser</a> installed on your system. The scripts could be modified to work with other web browsers.
+GeeksforGeeks has <a href='https://www.geeksforgeeks.org/send-mail-gmail-account-using-python/'>instructions</a> for sending emails using SMTP (Simple Mail Transfer Protocol). I store the sender, receiver, and sender password in a .env file on my system. Docker will read the .env file from the host machine and inject those variables into the container's environment before your Python scripts start.
 
 <h2>Schedule Python Scripts to Run Daily</h2>
 
