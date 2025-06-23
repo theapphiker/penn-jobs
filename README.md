@@ -14,7 +14,7 @@ This repostiory contains Dockerized Python scripts that use Selenium and Firefox
 `docker run --name penn-jobs-container --env-file ./.env penn-jobs`
 
 5. After initially running the Docker container, you can run the container using the following command:
-`docker start penn-jobs-container`
+`docker start -a penn-jobs-container`
 
 <b>Sending Emails using Python</b>
 

@@ -44,4 +44,4 @@ COPY src/psu_jobs.py .
 COPY src/penn_jobs.py .
 
 # Command to run your script when the container starts
-CMD python psu_jobs.py && python penn_jobs.py
+CMD python -u psu_jobs.py && python -u penn_jobs.py
