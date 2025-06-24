@@ -15,6 +15,17 @@ def main():
     Scrapes jobs of interest from Pennylvania government job search website and then emails the jobs to my Gmail account.
     
     """
+    # set up Firefox
+    options = Options()
+    firefox_binary_path = "/usr/bin/firefox-esr"
+    options.binary_location = firefox_binary_path
+    options.add_argument(
+        "--headless"
+    )  # prevents Firefox browser from obviously opening
+    options.add_argument("--disable-dev-shm-usage")
+    # Recommended for stability in Docker
+    options.add_argument("--no-sandbox")
+
     # add more searches to this list as needed
     job_links = [
     "https://www.governmentjobs.com/careers/pabureau?keywords=intelligence",
@@ -27,7 +38,7 @@ def main():
 
     print("Getting Penn jobs...")
     with concurrent.futures.ThreadPoolExecutor(max_workers=5) as executor:
-        future_to_url = {executor.submit(get_html, url): url for url in job_links}
+        future_to_url = {executor.submit(get_html, url, options): url for url in job_links}
         for future in concurrent.futures.as_completed(future_to_url):
             results_dict[future_to_url[future].replace("%20","_").split("=")[1]] = future.result()
 
@@ -52,7 +63,7 @@ def main():
     s.quit()
     print("Email sent!")
 
-def get_html(job_search):
+def get_html(job_search, options):
     """
     Fetches the HTML content of a provided Pennylvania government job search URL using a headless Firefox browser.
 
@@ -62,15 +73,6 @@ def get_html(job_search):
     Returns:
     str: The inner HTML content of the retrieved webpage.
     """
-    options = Options()
-    firefox_binary_path = "/usr/bin/firefox-esr"
-    options.binary_location = firefox_binary_path
-    options.add_argument(
-        "--headless"
-    )  # prevents Firefox browser from obviously opening
-    options.add_argument("--disable-dev-shm-usage")
-    # Recommended for stability in Docker
-    options.add_argument("--no-sandbox")
     browser = webdriver.Firefox(options=options)
     browser.get(job_search)
     sleep(5) # sleep for 5 seconds to allow time for the JavaScript to load
