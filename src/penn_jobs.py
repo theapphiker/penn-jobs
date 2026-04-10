@@ -66,6 +66,7 @@ def main():
 def get_html(job_search, options):
     """
     Fetches the HTML content of a provided Pennylvania government job search URL using a headless Firefox browser.
+    It will keep recursively fetching HTML content until there are no more jobs found.
 
     Args:
     job_search (str): The URL of the Pennylvania government job search.
