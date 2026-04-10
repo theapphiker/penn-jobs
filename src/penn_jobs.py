@@ -28,11 +28,11 @@ def main():
 
     # add more searches to this list as needed
     job_links = [
-    "https://www.governmentjobs.com/careers/pabureau?keywords=intelligence",
-    "https://www.governmentjobs.com/careers/pabureau?keywords=investigator",
-    "https://www.governmentjobs.com/careers/pabureau?keywords=python",
-    "https://www.governmentjobs.com/careers/pabureau?keywords=sql",
-    "https://www.governmentjobs.com/careers/pabureau?keywords=analyst"
+    "https://www.governmentjobs.com/careers/pabureau?keywords=intelligence&page=1",
+    "https://www.governmentjobs.com/careers/pabureau?keywords=investigator&page=1",
+    "https://www.governmentjobs.com/careers/pabureau?keywords=python&page=1",
+    "https://www.governmentjobs.com/careers/pabureau?keywords=sql&page=1",
+    "https://www.governmentjobs.com/careers/pabureau?keywords=analyst&page=1"
 ]
     results_dict = {}
 
@@ -40,7 +40,7 @@ def main():
     with concurrent.futures.ThreadPoolExecutor(max_workers=5) as executor:
         future_to_url = {executor.submit(get_html, url, options): url for url in job_links}
         for future in concurrent.futures.as_completed(future_to_url):
-            results_dict[future_to_url[future].replace("%20","_").split("=")[1]] = future.result()
+            results_dict[future_to_url[future].replace("%20","_").split("=")[1].replace("&page", "")] = future.result()
 
     # adding text for email
     print("Writing email with jobs...")
@@ -71,15 +71,22 @@ def get_html(job_search, options):
     job_search (str): The URL of the Pennylvania government job search.
 
     Returns:
-    str: The inner HTML content of the retrieved webpage.
+    list: A list of lists, where each inner list contains details for a single job posting
+    (job title, job URL, date of job posting).
     """
+    options = options
     browser = webdriver.Firefox(options=options)
     browser.get(job_search)
     sleep(5) # sleep for 5 seconds to allow time for the JavaScript to load
     inner_html = browser.execute_script("return document.body.innerHTML")
     browser.quit()
     jobs = parse_html(inner_html)
-    return jobs
+    if jobs == [[]]:
+        return jobs
+    else:
+        prev_page = int(job_search.split("&page=")[1])
+        job_search_next_page = job_search[:-1] + str(prev_page+1)
+        return jobs + get_html(job_search_next_page, options)
 
 def parse_html(html):
     """
